@@ -1,5 +1,27 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0"
+    "sdkVersion": "25.0.0",
+    "name": "DatoCMS Chain React Native",
+    "slug": "datocms-reactnative",
+    "privacy": "public",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "./assets/icons/app-icon.png",
+    "notification": {
+      "icon": "./assets/icons/notification-icon.png",
+      "color": "#000000"
+    },
+    "loading": {
+      "hideExponentText": true,
+      "icon": "./assets/icons/loading-icon.png",
+      "backgroundColor": "#ffffff"
+    },
+    "packagerOpts": {
+      "assetExts": ["ttf"]
+    },
+    "ios": {
+      "supportsTablet": true
+    }
   }
 }

@@ -16,7 +16,7 @@ function Foo({ data }) {
 }
 
 export default graphql(gql`
-  query TodoAppQuery {
+  query SchedulesQuery {
     allEvents(
       orderBy: time_ASC
       first: 100
