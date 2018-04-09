@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Colors, Fonts, Images, Layout } from '../constants';
 import openExternalMapApp from '../utilities/openExternalMapApp';
-const NearbySites = require('../data/nearby.json');
+const NearbySites = require('../dato/nearby.json');
 const NearbySiteNames = Object.keys(NearbySites);
 
 export default class NearbySitesGallery extends React.PureComponent {

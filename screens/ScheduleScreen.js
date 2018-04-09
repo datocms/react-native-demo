@@ -57,6 +57,10 @@ class ScheduleScreenInternal extends React.Component {
     scheduleDay && scheduleDay.scrollToTop();
   };
 
+  componentWillReceiveProps(next) {
+    if (next.data.allEvents) this._formatData(next.data);
+  }
+
   render() {
     let { data } = this.props;
 
@@ -69,11 +73,6 @@ class ScheduleScreenInternal extends React.Component {
       return (
         <View style={{ marginTop: 64 }}>An unexpected error occurred</View>
       );
-    }
-
-    if (data.allEvents && !this.state.events) {
-      this._formatData();
-      return <Text style={{ marginTop: 64 }}>Loading</Text>;
     }
 
     return (
@@ -151,8 +150,8 @@ class ScheduleScreenInternal extends React.Component {
     );
   };
 
-  _formatData = () => {
-    let { data } = this.props;
+  _formatData = data => {
+    //let { data } = this.props;
 
     var events = _.chain(data.allEvents)
       .map(e => {
@@ -164,14 +163,16 @@ class ScheduleScreenInternal extends React.Component {
         if (e.image && e.image.url) event.avatarURL = e.image.url;
 
         event.eventStart = event.time;
-        event.eventEnd = moment(event.time).add(event.duration,'mins');
+        event.eventEnd = moment(event.time).add(event.duration, "mins");
 
         event.type = card.model_type;
         if (card.model_type === "talk") {
           event.description = card.description;
           event.speakerInfo = card.speakers;
         } else {
-          event.options = card.options;
+          event.options = card.options.split("\n");
+           event.veganOptions = [];
+          console.log("options", event.options);
         }
         let d = moment(e.time).format("YYYY-MM-DD");
         event.d = "" + d;
