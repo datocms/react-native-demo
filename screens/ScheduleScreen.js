@@ -134,11 +134,7 @@ class ScheduleScreenInternal extends React.Component {
 
   _renderPage = ({ route }) => {
     const { day } = route;
-
-    console.log("DAY ", day);
-    let items = this.state.events[day].items; //this._formatData();
-    //scheduleByDay[day]
-
+    let items = this.state.events[day].items;
     return (
       <ScheduleDay
         ref={view => {
@@ -164,15 +160,14 @@ class ScheduleScreenInternal extends React.Component {
 
         event.eventStart = event.time;
         event.eventEnd = moment(event.time).add(event.duration, "mins");
-
         event.type = card.model_type;
+
         if (card.model_type === "talk") {
           event.description = card.description;
           event.speakerInfo = card.speakers;
         } else {
           event.options = card.options.split("\n");
            event.veganOptions = [];
-          console.log("options", event.options);
         }
         let d = moment(e.time).format("YYYY-MM-DD");
         event.d = "" + d;

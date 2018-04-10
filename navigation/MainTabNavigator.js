@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import CustomTabBarBottom from './CustomTabBarBottom';
-
 import { Colors, Images, Layout } from '../constants';
 import NavigationEvents from '../utilities/NavigationEvents';
 import ScheduleScreen from '../screens/ScheduleScreen';
