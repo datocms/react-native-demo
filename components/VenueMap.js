@@ -1,32 +1,31 @@
-import React from 'react';
+import React from "react";
 import {
   ActivityIndicator,
   Text,
   StyleSheet,
   TouchableOpacity,
-  View,
-} from 'react-native';
-import { MapView } from 'expo';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import { Images, Layout, Colors } from '../constants';
+  View
+} from "react-native";
+import { MapView } from "expo";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Images, Layout, Colors } from "../constants";
 
 const Venue = {
-  title: 'The Armory',
+  title: "The Armory",
   latitude: 45.524166,
-  longitude: -122.681645,
+  longitude: -122.681645
 };
 
 const Region = {
   latitude: Venue.latitude,
   longitude: Venue.longitude,
   latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  longitudeDelta: 0.01
 };
 
 export default class VenueMap extends React.Component {
   state = {
-    shouldRenderMap: false,
+    shouldRenderMap: false
   };
 
   componentWillMount() {
@@ -50,11 +49,12 @@ export default class VenueMap extends React.Component {
           style={[
             this.props.style,
             {
-              backgroundColor: '#eee',
-              alignItems: 'center',
-              justifyContent: 'center',
-            },
-          ]}>
+              backgroundColor: "#eee",
+              alignItems: "center",
+              justifyContent: "center"
+            }
+          ]}
+        >
           <ActivityIndicator />
         </View>
       );
@@ -67,8 +67,23 @@ export default class VenueMap extends React.Component {
           style={this.props.style}
           initialRegion={Region}
           onRegionChangeComplete={this._onRegionChange}
-          showsUserLocation={true}>
+          showsUserLocation={true}
+        >
           {this._renderMarker(Venue)}
+          {this.props.data.allNearbies.map(nb => {
+            if (!nb.geoposition) return null;
+            return (
+              <MapView.Marker
+                key={nb.name}
+                coordinate={{
+                  latitude: nb.geoposition.latitude,
+                  longitude: nb.geoposition.longitude
+                }}
+                title={nb.name}
+                description={nb.address}
+              />
+            );
+          })}
         </MapView>
 
         {this._renderCloseButton()}
@@ -83,13 +98,12 @@ export default class VenueMap extends React.Component {
         image={Images.markerIcon}
         coordinate={{
           latitude: location.latitude,
-          longitude: location.longitude,
-        }}>
-        <MapView.Callout style={{ flex: 1, position: 'relative' }}>
+          longitude: location.longitude
+        }}
+      >
+        <MapView.Callout style={{ flex: 1, position: "relative" }}>
           <TouchableOpacity onPress={this._onPress}>
-            <Text>
-              {location.title}
-            </Text>
+            <Text>{location.title}</Text>
           </TouchableOpacity>
         </MapView.Callout>
       </MapView.Marker>
@@ -104,7 +118,8 @@ export default class VenueMap extends React.Component {
       <TouchableOpacity
         onPress={this.props.onCloseMap}
         hitSlop={{ top: 30, left: 30, right: 30, bottom: 30 }}
-        style={[styles.mapCloseButton, { left }]}>
+        style={[styles.mapCloseButton, { left }]}
+      >
         <Ionicons
           name="md-close-circle"
           size={26}
@@ -120,10 +135,10 @@ const styles = StyleSheet.create({
   mapCloseButton: {
     width: 30,
     height: 30,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     margin: Layout.smallMargin,
-    position: 'absolute',
+    position: "absolute",
     left: 0,
-    zIndex: 100,
-  },
+    zIndex: 100
+  }
 });

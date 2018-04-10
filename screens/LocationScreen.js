@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Animated,
   BackHandler,
@@ -7,38 +7,34 @@ import {
   Text,
   StyleSheet,
   PanResponder,
-  LayoutAnimation,
-} from 'react-native';
+  LayoutAnimation
+} from "react-native";
 
-import { Colors, Fonts, Images, Layout } from '../constants';
-import NavigationEvents from '../utilities/NavigationEvents';
-import StatusBarUnderlay from '../components/StatusBarUnderlay';
-import NearbySitesGallery from '../components/NearbySitesGallery';
-import VenueMap from '../components/VenueMap';
-import PurpleGradient from '../components/PurpleGradient';
+import { Colors, Fonts, Images, Layout } from "../constants";
+import NavigationEvents from "../utilities/NavigationEvents";
+import StatusBarUnderlay from "../components/StatusBarUnderlay";
+import NearbySitesGallery from "../components/NearbySitesGallery";
+import VenueMap from "../components/VenueMap";
+import PurpleGradient from "../components/PurpleGradient";
 
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import moment from "moment";
 import _ from "lodash";
 
-const GOOGLE_API_KEY = "AIzaSyBIxB-hcr3xH-rBS1uCP-iqblJ3rBrv9bQ";
-let geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_API_KEY}&address=`;
-
 const MAP_TAP_THRESHOLD = 100;
 const SCROLL_TARGET_FOR_MAP_FOCUS = Layout.screenHeight / 4.25;
 const ACTIVE_MAP_HEIGHT = Layout.screenHeight - SCROLL_TARGET_FOR_MAP_FOCUS;
-
-export default class LocationScreen extends React.Component {
+class LocationScreenInternal extends React.Component {
   static navigationOptions = {
-    title: 'Location',
+    title: "Location"
   };
 
   state = {
     scrollY: new Animated.Value(0),
-    mapTouchStart: '',
+    mapTouchStart: "",
     mapIsFocused: false,
-    mapActionsAreFocused: false,
+    mapActionsAreFocused: false
   };
 
   _mostRecentScrollY = 0;
@@ -48,13 +44,13 @@ export default class LocationScreen extends React.Component {
       this._mostRecentScrollY = value;
     });
 
-    if (Platform.OS === 'android') {
-      BackHandler.addEventListener('backPress', this._handleBackButtonPress);
+    if (Platform.OS === "android") {
+      BackHandler.addEventListener("backPress", this._handleBackButtonPress);
 
       // It feels better if we close the map and actions on Android when we
       // switch tabs, and also makes handling back button easier
       this._navigationEventListener = NavigationEvents.addListener(
-        'change',
+        "change",
         () => {
           this._maybeCloseMap();
           this._maybeCloseMapActions();
@@ -63,9 +59,9 @@ export default class LocationScreen extends React.Component {
     }
 
     this._tabPressedListener = NavigationEvents.addListener(
-      'selectedTabPressed',
+      "selectedTabPressed",
       route => {
-        if (route.key === 'Location') {
+        if (route.key === "Location") {
           this._scrollToTop();
         }
       }
@@ -76,7 +72,7 @@ export default class LocationScreen extends React.Component {
       onPanResponderGrant: e => {
         this.setState({ mapTouchStart: e.nativeEvent.timestamp });
       },
-      onPanResponderRelease: this._checkMapTap,
+      onPanResponderRelease: this._checkMapTap
     });
   }
 
@@ -84,16 +80,20 @@ export default class LocationScreen extends React.Component {
     this._navigationEventListener && this._navigationEventListener.remove();
     this._tabPressedListener.remove();
     BackHandler.removeEventListener(
-      'hardwareBackPress',
+      "hardwareBackPress",
       this._handleBackButtonPress
     );
   }
+
+  // componentWillReceiveProps(next) {
+  //   if (next.data.allNearbies) this.setState({allNearbies:next.data.allNearbies});
+  // }
 
   render() {
     let underlayOpacity = this.state.scrollY.interpolate({
       inputRange: [100, 250],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: "clamp"
     });
 
     return (
@@ -107,13 +107,13 @@ export default class LocationScreen extends React.Component {
             { useNativeDriver: true }
           )}
           scrollEventThrottle={1}
-          scrollEnabled={!this.state.mapIsFocused}>
+          scrollEnabled={!this.state.mapIsFocused}
+        >
           <View style={styles.container}>
             {this._renderBackground()}
             {this._renderHeader()}
-            {this._renderMap()}
-
-            {this._renderNearbySites()}
+            {this.props.data.allNearbies && this._renderMap()}
+            {this.props.data.allNearbies && this._renderNearbySites()}
           </View>
         </Animated.ScrollView>
 
@@ -129,23 +129,23 @@ export default class LocationScreen extends React.Component {
     return (
       <Animated.Image
         style={{
-          position: 'absolute',
-          width: '100%',
+          position: "absolute",
+          width: "100%",
           height,
           transform: [
             {
               translateY: scrollY.interpolate({
                 inputRange: [-height, 0, height],
-                outputRange: [height, 0, 0],
-              }),
+                outputRange: [height, 0, 0]
+              })
             },
             {
               scale: scrollY.interpolate({
                 inputRange: [-height, 0, height],
-                outputRange: [0.9, 1, 1.5],
-              }),
-            },
-          ],
+                outputRange: [0.9, 1, 1.5]
+              })
+            }
+          ]
         }}
         source={Images.theArmory}
         resizeMode="cover"
@@ -164,21 +164,22 @@ export default class LocationScreen extends React.Component {
           padding: 0,
           opacity: scrollY.interpolate({
             inputRange: [-height, 0, height * 0.4, height * 0.9],
-            outputRange: [1, 1, 1, 0],
+            outputRange: [1, 1, 1, 0]
           }),
           transform: [
             {
               translateY: scrollY.interpolate({
                 inputRange: [-height, 0, height * 0.45, height],
-                outputRange: [0, 0, height * 0.45, height * 0.4],
-              }),
-            },
-          ],
-        }}>
+                outputRange: [0, 0, height * 0.45, height * 0.4]
+              })
+            }
+          ]
+        }}
+      >
         <View style={styles.headingContainer}>
           <Text style={styles.mainHeading}>The Armory</Text>
           <Text style={styles.address}>
-            128 NW Eleventh Ave{'\n'}
+            128 NW Eleventh Ave{"\n"}
             Portland, OR 97209
           </Text>
         </View>
@@ -194,8 +195,9 @@ export default class LocationScreen extends React.Component {
           onCloseMap={this._onCloseMap}
           style={[
             styles.map,
-            this.state.mapIsFocused && { height: ACTIVE_MAP_HEIGHT },
+            this.state.mapIsFocused && { height: ACTIVE_MAP_HEIGHT }
           ]}
+          data={this.props.data}
         />
       </View>
     );
@@ -208,7 +210,7 @@ export default class LocationScreen extends React.Component {
           <Text style={styles.mainHeading}>Nearby</Text>
         </View>
 
-        <NearbySitesGallery />
+        <NearbySitesGallery data={this.props.data} />
       </View>
     );
   }
@@ -232,18 +234,18 @@ export default class LocationScreen extends React.Component {
     ) {
       this._focusMap();
     }
-    this.setState({ mapTouchStart: '' });
+    this.setState({ mapTouchStart: "" });
   };
 
   _focusMap = () => {
     LayoutAnimation.configureNext({
       ...LayoutAnimation.Presets.linear,
-      duration: 250,
+      duration: 250
     });
 
     this._scrollView.getNode().scrollTo({
       y: SCROLL_TARGET_FOR_MAP_FOCUS,
-      animated: true,
+      animated: true
     });
     this.setState({ mapIsFocused: true });
   };
@@ -267,12 +269,12 @@ export default class LocationScreen extends React.Component {
   _onCloseMap = () => {
     LayoutAnimation.configureNext({
       ...LayoutAnimation.Presets.linear,
-      duration: 150,
+      duration: 150
     });
 
     this._scrollView.getNode().scrollTo({
       y: 0,
-      animated: true,
+      animated: true
     });
     this.setState({ mapIsFocused: false });
 
@@ -281,75 +283,93 @@ export default class LocationScreen extends React.Component {
   };
 }
 
+const nearbyQuery = gql`
+  query NearbyQuery {
+    allNearbies {
+      name
+      address
+      image
+      category {
+        name
+      }
+      geoposition {
+        latitude
+        longitude
+      }
+    }
+  }
+`;
+export default graphql(nearbyQuery)(LocationScreenInternal);
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.transparent
   },
   backgroundImage: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   },
   container: {
     flex: 1,
     paddingTop: Layout.baseMargin,
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.transparent
   },
   section: {
     margin: Layout.section,
-    padding: Layout.baseMargin,
+    padding: Layout.baseMargin
   },
   sectionHeader: {
     padding: Layout.baseMargin,
-    backgroundColor: Colors.frost,
+    backgroundColor: Colors.frost
   },
   sectionText: {
     ...Fonts.style.normal,
     paddingVertical: Layout.doubleBaseMargin,
     color: Colors.snow,
     marginVertical: Layout.smallMargin,
-    textAlign: 'center',
+    textAlign: "center"
   },
   subtitle: {
     color: Colors.snow,
     padding: Layout.smallMargin,
     marginBottom: Layout.smallMargin,
-    marginHorizontal: Layout.smallMargin,
+    marginHorizontal: Layout.smallMargin
   },
   titleText: {
     ...Fonts.style.h2,
     fontSize: 14,
-    color: Colors.text,
+    color: Colors.text
   },
   headingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40
   },
   mainHeading: {
-    fontFamily: 'Montserrat-SemiBold',
+    fontFamily: "Montserrat-SemiBold",
     fontSize: 31,
     letterSpacing: 0.2,
-    color: Colors.snow,
+    color: Colors.snow
   },
   address: {
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: "Montserrat-Medium",
     fontSize: 15,
     letterSpacing: 0.47,
     lineHeight: 23,
-    textAlign: 'center',
-    color: '#FDE5FF',
+    textAlign: "center",
+    color: "#FDE5FF"
   },
   map: {
-    width: '100%',
+    width: "100%",
     height: 180,
-    zIndex: 2,
+    zIndex: 2
   },
   nearby: {
-    alignItems: 'center',
-    paddingTop: 40,
-  },
+    alignItems: "center",
+    paddingTop: 40
+  }
 });

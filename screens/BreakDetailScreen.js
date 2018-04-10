@@ -2,7 +2,6 @@ import React from 'react';
 import { Animated, StyleSheet, View, Text, Image } from 'react-native';
 import FadeIn from 'react-native-fade-in-image';
 import { format, addMinutes } from 'date-fns';
-
 import StatusBarUnderlay from '../components/StatusBarUnderlay';
 import BackButton from '../components/BackButton';
 import Colors from '../constants/Colors';

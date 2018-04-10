@@ -13,15 +13,12 @@ import FadeIn from "react-native-fade-in-image";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors, Fonts, Images, Layout } from "../constants";
 import openExternalMapApp from "../utilities/openExternalMapApp";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+
 import moment from "moment";
 import _ from "lodash";
 
-const GOOGLE_API_KEY = "AIzaSyBIxB-hcr3xH-rBS1uCP-iqblJ3rBrv9bQ";
-let geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_API_KEY}&address=`;
 
-class NearbySitesGallery extends React.PureComponent {
+export default class NearbySitesGallery extends React.PureComponent {
   state = {
     activeTab: null,
     shouldRenderTabs: false,
@@ -30,13 +27,10 @@ class NearbySitesGallery extends React.PureComponent {
   };
 
   componentWillMount() {
+    this._formatData(this.props.data);
     requestIdleCallback(() => {
       this.setState({ shouldRenderTabs: true });
     });
-  }
-
-  componentWillReceiveProps(next) {
-    if (next.data.allNearbies) this._formatData(next.data);
   }
 
   // todo(brentvatne): improve perf of switching tabs here
@@ -58,7 +52,6 @@ class NearbySitesGallery extends React.PureComponent {
   }
 
   _formatData = data => {
-    console.log("FORMAT DATA");
     let nearbySites = _.chain(data.allNearbies)
       .map(nb => {
         let nearby = Object.assign({}, nb);
@@ -70,15 +63,13 @@ class NearbySitesGallery extends React.PureComponent {
       .toPairs()
       .map(currentItem => {
         return _.zipObject(["category", "items"], currentItem);
-      })
-
-      .value();
+      }).value();
 
     let nearbySiteNames = nearbySites.map(nb => nb.category);
     let activeTab = nearbySiteNames[0];
     let state = { nearbySites, nearbySiteNames, activeTab };
     this.setState(state);
-  };
+  }
 
   _setActiveTab = tab => {
     LayoutAnimation.configureNext({
@@ -144,20 +135,6 @@ class NearbySitesGallery extends React.PureComponent {
     openExternalMapApp(address.replace(/\s/, "+"));
   };
 }
-
-const nearbyQuery = gql`
-  query NearbyQuery {
-    allNearbies {
-      name
-      address
-      image
-      category {
-        name
-      }
-    }
-  }
-`;
-export default graphql(nearbyQuery)(NearbySitesGallery);
 
 const styles = StyleSheet.create({
   container: {
