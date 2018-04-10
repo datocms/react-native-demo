@@ -18,6 +18,7 @@ const Sponsor = props => {
 const Sponsors = () => {
   return (
     <View style={styles.sponsors}>
+     <Image source={Images.sponsor} />
       <Text style={styles.heading}>Our Sponsors</Text>
       <Text style={styles.description}>
         We love the sponsors for this conference. They make all of this fun
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 20,
     paddingBottom: 50,
-    paddingTop: 30,
+    paddingTop: 0,
     backgroundColor: Colors.transparent,
   },
   heading: {

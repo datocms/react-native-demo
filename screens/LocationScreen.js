@@ -15,8 +15,15 @@ import NavigationEvents from '../utilities/NavigationEvents';
 import StatusBarUnderlay from '../components/StatusBarUnderlay';
 import NearbySitesGallery from '../components/NearbySitesGallery';
 import VenueMap from '../components/VenueMap';
-import VenueMapActions from '../components/VenueMapActions';
 import PurpleGradient from '../components/PurpleGradient';
+
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+import moment from "moment";
+import _ from "lodash";
+
+const GOOGLE_API_KEY = "AIzaSyBIxB-hcr3xH-rBS1uCP-iqblJ3rBrv9bQ";
+let geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_API_KEY}&address=`;
 
 const MAP_TAP_THRESHOLD = 100;
 const SCROLL_TARGET_FOR_MAP_FOCUS = Layout.screenHeight / 4.25;
@@ -105,12 +112,7 @@ export default class LocationScreen extends React.Component {
             {this._renderBackground()}
             {this._renderHeader()}
             {this._renderMap()}
-            <VenueMapActions
-              ref={view => {
-                this._mapActions = view;
-              }}
-              onFocus={this._handleMapActionsFocus}
-            />
+
             {this._renderNearbySites()}
           </View>
         </Animated.ScrollView>

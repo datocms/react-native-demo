@@ -7,20 +7,19 @@ import {
   StyleSheet,
   LayoutAnimation
 } from "react-native";
+
 import Touchable from "react-native-platform-touchable";
 import FadeIn from "react-native-fade-in-image";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
 import { Colors, Fonts, Images, Layout } from "../constants";
 import openExternalMapApp from "../utilities/openExternalMapApp";
-
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import moment from "moment";
 import _ from "lodash";
 
-//const NearbySites = require("../dato/nearby.json");
-//const NearbySiteNames = Object.keys(NearbySites);
+const GOOGLE_API_KEY = "AIzaSyBIxB-hcr3xH-rBS1uCP-iqblJ3rBrv9bQ";
+let geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_API_KEY}&address=`;
 
 class NearbySitesGallery extends React.PureComponent {
   state = {

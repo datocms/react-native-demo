@@ -22,18 +22,13 @@ import {
 import { AppLoading, KeepAwake, Notifications } from "expo";
 import { Provider } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Sentry from "sentry-expo";
 
 import Images from "./constants/Images";
 import RootNavigation from "./navigation/RootNavigation";
 import Colors from "./constants/Colors";
 import cacheAssetsAsync from "./utilities/cacheAssetsAsync";
 import NavigationEvents from "./utilities/NavigationEvents";
-import Store from "./state/Store";
 
-Sentry.config(
-  "https://0134d401ae6b4c22ac088806dea5fc68@sentry.io/164907"
-).install();
 console.disableYellowBox = true;
 Text.defaultProps.allowFontScaling = false;
 
@@ -84,7 +79,6 @@ export default class App extends React.Component {
 
   async _initializeAsync() {
     try {
-      console.log("_initializeAsync");
       await cacheAssetsAsync({
         images: Images.forLocalCache,
         fonts: [
@@ -106,51 +100,9 @@ export default class App extends React.Component {
           }
         ]
       });
-      /*
-      await Promise.all([
-        Store.rehydrateAsync(),
-        cacheAssetsAsync({
-          images: Images.forLocalCache,
-          fonts: [
-            Ionicons.font,
-            {
-              "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf")
-            },
-            {
-              "Montserrat-SemiBold": require("./assets/fonts/Montserrat-SemiBold.ttf")
-            },
-            {
-              "Montserrat-Medium": require("./assets/fonts/Montserrat-Medium.ttf")
-            },
-            {
-              "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf")
-            },
-            {
-              "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf")
-            }
-          ]
-        })
-      ]);
-      */
-
-      // await Store.rehydrateAsync();
-
-      // await Font.loadAsync({
-      //   "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
-      //   "Montserrat-SemiBold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
-      //   "Montserrat-Medium": require("./assets/fonts/Montserrat-Medium.ttf"),
-      //   "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
-      //   "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf")
-      // });
-
-      // await Font.loadAsync(Ionicons.font);
-
-      console.log("ICON");
     } catch (e) {
-      console.log("ERROR");
-      Sentry.captureException(e);
+      console.log(e);
     } finally {
-      console.log("FINALLY");
       this.setState({ appIsReady: true });
     }
   }
@@ -158,7 +110,6 @@ export default class App extends React.Component {
   render() {
     if (this.state.appIsReady) {
       return (
-        <Provider store={Store}>
           <ApolloProvider client={client}>
             <View style={styles.container}>
               <RootNavigation
@@ -166,7 +117,6 @@ export default class App extends React.Component {
                   NavigationEvents.emit("change", { prevState, currentState });
                 }}
               />
-
               {__DEV__ && <KeepAwake />}
               <StatusBar
                 barStyle="light-content"
@@ -174,7 +124,6 @@ export default class App extends React.Component {
               />
             </View>
           </ApolloProvider>
-        </Provider>
       );
 
     } else {

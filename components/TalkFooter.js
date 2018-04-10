@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { format } from 'date-fns';
-
 import { Colors, Layout } from '../constants';
-import RemindMeButton from './RemindMeButton';
 
 export default class TalkFooter extends React.PureComponent {
   render() {
@@ -27,20 +25,12 @@ export default class TalkFooter extends React.PureComponent {
           </View>
         </View>
 
-        {this._maybeRenderRemindMeButton()}
+
       </View>
     );
   }
 
-  _maybeRenderRemindMeButton = () => {
-    let { details } = this.props;
 
-    return (
-      <View style={styles.remindMe}>
-        <RemindMeButton time={details.eventStart} title={details.title} />
-      </View>
-    );
-  };
 }
 
 const styles = StyleSheet.create({

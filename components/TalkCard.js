@@ -10,7 +10,6 @@ import {
 import { withNavigation } from 'react-navigation';
 import Touchable from 'react-native-platform-touchable';
 import FadeIn from 'react-native-fade-in-image';
-
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import TalkFooter from '../components/TalkFooter';
