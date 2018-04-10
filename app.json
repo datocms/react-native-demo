@@ -21,7 +21,13 @@
       "assetExts": ["ttf"]
     },
     "ios": {
+      "bundleIdentifier": "com.datocms.conference",
+      "buildNumber": "0.0.1",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.datocms.conference",
+      "versionCode": 1
     }
   }
 }
