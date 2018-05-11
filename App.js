@@ -9,7 +9,6 @@ import {
   InMemoryCache
 } from "apollo-cache-inmemory";
 import introspectionQueryResultData from "./fragmentTypes.json";
-import Foo from "./Foo";
 
 import {
   Alert,
@@ -29,10 +28,10 @@ import Colors from "./constants/Colors";
 import cacheAssetsAsync from "./utilities/cacheAssetsAsync";
 import NavigationEvents from "./utilities/NavigationEvents";
 
+import { DATO_API_KEY } from "react-native-dotenv";
+
 console.disableYellowBox = true;
 Text.defaultProps.allowFontScaling = false;
-
-const token = "de09ccc913e5107b80a51e92247ae1";
 
 const httpLink = createHttpLink({
   uri: "https://site-api.datocms.com/graphql"
@@ -43,7 +42,7 @@ const authLink = setContext((_, { headers }) => {
     headers: Object.assign(headers || {}, {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${DATO_API_KEY}`
     })
   };
 });
@@ -62,6 +61,7 @@ export default class App extends React.Component {
     appIsReady: false
   };
   componentWillMount() {
+    console.log("DATO_API_KEY", DATO_API_KEY);
     this._initializeAsync();
     this._listenForNotifications();
   }
@@ -110,22 +110,20 @@ export default class App extends React.Component {
   render() {
     if (this.state.appIsReady) {
       return (
-          <ApolloProvider client={client}>
-            <View style={styles.container}>
-              <RootNavigation
-                onNavigationStateChange={(prevState, currentState) => {
-                  NavigationEvents.emit("change", { prevState, currentState });
-                }}
-              />
-              {__DEV__ && <KeepAwake />}
-              <StatusBar
-                barStyle="light-content"
-                backgroundColor={Colors.purple}
-              />
-            </View>
-          </ApolloProvider>
+        <ApolloProvider client={client}>
+          <View style={styles.container}>
+            <RootNavigation
+              onNavigationStateChange={(prevState, currentState) => {
+                NavigationEvents.emit("change", { prevState, currentState });
+              }}
+            />
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor={Colors.purple}
+            />
+          </View>
+        </ApolloProvider>
       );
-
     } else {
       return <AppLoading />;
     }
