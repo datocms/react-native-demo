@@ -34,7 +34,7 @@ console.disableYellowBox = true;
 Text.defaultProps.allowFontScaling = false;
 
 const httpLink = createHttpLink({
-  uri: "https://site-api.datocms.com/graphql"
+  uri: "https://graphql.datocms.com/"
 });
 
 const authLink = setContext((_, { headers }) => {
