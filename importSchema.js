@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const token = 'de09ccc913e5107b80a51e92247ae1';
 
-fetch(`https://site-api.datocms.com/graphql`, {
+fetch(`https://graphql.datocms.com/`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
