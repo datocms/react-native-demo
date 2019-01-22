@@ -10,7 +10,7 @@ You can preview this app on on your phone from this page on [expo.io/datocms-rea
 
 ### `Clone this repository`
 
-First colone this repo
+First clone this repo
 `git clone https://github.com/datocms/react-native-demo.git`
 
 #### `Set DatoCMS API token env variable`
