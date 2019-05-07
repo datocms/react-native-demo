@@ -1,8 +1,8 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0",
-    "name": "DatoCMS Chain React Native",
-    "slug": "datocms-reactnative",
+    "sdkVersion": "30.0.0",
+    "name": "DatoCMS WMF 2018",
+    "slug": "datocms-wmf",
     "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,16 +18,23 @@
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
-      "assetExts": ["ttf"]
+      "assetExts": [
+        "ttf"
+      ]
     },
     "ios": {
-      "bundleIdentifier": "com.datocms.conference",
+      "bundleIdentifier": "com.datocms.wmf",
       "buildNumber": "0.0.1",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.datocms.conference",
+      "package": "com.datocms.wmf",
       "versionCode": 1
-    }
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "description": ""
   }
 }
