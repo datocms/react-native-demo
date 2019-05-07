@@ -4,13 +4,13 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 
 
 ## Preview this App
-You can preview this app on on your phone from this page on [expo.io/datocms-reactnative](https://expo.io/@zzlorezz/datocms-reactnative)
+You can preview this app on on your phone from this page on [expo.io datocms-wmf](https://expo.io/@zzlorezz/datocms-wmf)
 
 ## Setup the Project
 
 ### `Clone this repository`
 
-First clone this repo
+First colone this repo
 `git clone https://github.com/datocms/react-native-demo.git`
 
 #### `Set DatoCMS API token env variable`

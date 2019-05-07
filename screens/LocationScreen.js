@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Animated,
   BackHandler,
@@ -8,49 +8,70 @@ import {
   StyleSheet,
   PanResponder,
   LayoutAnimation
-} from "react-native";
+} from 'react-native';
 
-import { Colors, Fonts, Images, Layout } from "../constants";
-import NavigationEvents from "../utilities/NavigationEvents";
-import StatusBarUnderlay from "../components/StatusBarUnderlay";
-import NearbySitesGallery from "../components/NearbySitesGallery";
-import VenueMap from "../components/VenueMap";
-import PurpleGradient from "../components/PurpleGradient";
+import { Colors, Fonts, Images, Layout } from '../constants';
+import NavigationEvents from '../utilities/NavigationEvents';
+import StatusBarUnderlay from '../components/StatusBarUnderlay';
+import NearbySitesGallery from '../components/NearbySitesGallery';
+import VenueMap from '../components/VenueMap';
+import PurpleGradient from '../components/PurpleGradient';
 
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
-import moment from "moment";
-import _ from "lodash";
+import moment from 'moment';
+import _ from 'lodash';
 
 const MAP_TAP_THRESHOLD = 100;
 const SCROLL_TARGET_FOR_MAP_FOCUS = Layout.screenHeight / 4.25;
 const ACTIVE_MAP_HEIGHT = Layout.screenHeight - SCROLL_TARGET_FOR_MAP_FOCUS;
+
+import { DATO_API_KEY } from 'react-native-dotenv';
+const nearbyQuery = `
+  query NearbyQuery {
+    allNearbies {
+      name
+      address
+      image
+      category {
+        name
+      }
+      geoposition {
+        latitude
+        longitude
+      }
+    }
+  }
+`;
+
 class LocationScreenInternal extends React.Component {
   static navigationOptions = {
-    title: "Location"
+    title: 'Location'
   };
 
   state = {
     scrollY: new Animated.Value(0),
-    mapTouchStart: "",
+    mapTouchStart: '',
     mapIsFocused: false,
-    mapActionsAreFocused: false
+    mapActionsAreFocused: false,
+    loading: true,
+    data: {}
   };
 
   _mostRecentScrollY = 0;
 
   componentWillMount() {
+    this.getData();
+
     this.state.scrollY.addListener(({ value }) => {
       this._mostRecentScrollY = value;
     });
 
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener("backPress", this._handleBackButtonPress);
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('backPress', this._handleBackButtonPress);
 
       // It feels better if we close the map and actions on Android when we
       // switch tabs, and also makes handling back button easier
       this._navigationEventListener = NavigationEvents.addListener(
-        "change",
+        'change',
         () => {
           this._maybeCloseMap();
           this._maybeCloseMapActions();
@@ -59,9 +80,9 @@ class LocationScreenInternal extends React.Component {
     }
 
     this._tabPressedListener = NavigationEvents.addListener(
-      "selectedTabPressed",
+      'selectedTabPressed',
       route => {
-        if (route.key === "Location") {
+        if (route.key === 'Location') {
           this._scrollToTop();
         }
       }
@@ -80,20 +101,62 @@ class LocationScreenInternal extends React.Component {
     this._navigationEventListener && this._navigationEventListener.remove();
     this._tabPressedListener.remove();
     BackHandler.removeEventListener(
-      "hardwareBackPress",
+      'hardwareBackPress',
       this._handleBackButtonPress
     );
   }
 
   // componentWillReceiveProps(next) {
-  //   if (next.data.allNearbies) this.setState({allNearbies:next.data.allNearbies});
+  //   if (next.data.allNearbies)
+  //     this.setState({ allNearbies: next.data.allNearbies });
   // }
 
+  async getData() {
+    console.log('get data');
+    let loading = false;
+    try {
+      let response = await this.doQuery({
+        query: nearbyQuery,
+        variables: null
+      });
+      console.log('response', response);
+      if (response.data) {
+        let { data } = response;
+        console.log('OK');
+        this.setState({ data, loading });
+      }
+    } catch (err) {
+      console.log('catch', err);
+    }
+  }
+
+  async doQuery(payload) {
+    try {
+      return await fetch('https://graphql.datocms.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${DATO_API_KEY}`
+        },
+        body: JSON.stringify(payload)
+      }).then(res => res.json());
+    } catch (error) {
+      console.log('QUERY ERROR', error, 'on query', payload);
+      throw error;
+    }
+  }
+
   render() {
+    const { data, loading } = this.state;
+    if (!data || loading) {
+      return <Text style={{ marginTop: 64, color: 'white' }}>Loading...</Text>;
+    }
+
     let underlayOpacity = this.state.scrollY.interpolate({
       inputRange: [100, 250],
       outputRange: [0, 1],
-      extrapolate: "clamp"
+      extrapolate: 'clamp'
     });
 
     return (
@@ -112,8 +175,8 @@ class LocationScreenInternal extends React.Component {
           <View style={styles.container}>
             {this._renderBackground()}
             {this._renderHeader()}
-            {this.props.data.allNearbies && this._renderMap()}
-            {this.props.data.allNearbies && this._renderNearbySites()}
+            {data.allNearbies && this._renderMap()}
+            {data.allNearbies && this._renderNearbySites()}
           </View>
         </Animated.ScrollView>
 
@@ -129,8 +192,8 @@ class LocationScreenInternal extends React.Component {
     return (
       <Animated.Image
         style={{
-          position: "absolute",
-          width: "100%",
+          position: 'absolute',
+          width: '100%',
           height,
           transform: [
             {
@@ -179,7 +242,7 @@ class LocationScreenInternal extends React.Component {
         <View style={styles.headingContainer}>
           <Text style={styles.mainHeading}>The Armory</Text>
           <Text style={styles.address}>
-            128 NW Eleventh Ave{"\n"}
+            128 NW Eleventh Ave{'\n'}
             Portland, OR 97209
           </Text>
         </View>
@@ -197,7 +260,7 @@ class LocationScreenInternal extends React.Component {
             styles.map,
             this.state.mapIsFocused && { height: ACTIVE_MAP_HEIGHT }
           ]}
-          data={this.props.data}
+          data={this.state.data}
         />
       </View>
     );
@@ -210,7 +273,7 @@ class LocationScreenInternal extends React.Component {
           <Text style={styles.mainHeading}>Nearby</Text>
         </View>
 
-        <NearbySitesGallery data={this.props.data} />
+        <NearbySitesGallery data={this.state.data} />
       </View>
     );
   }
@@ -234,7 +297,7 @@ class LocationScreenInternal extends React.Component {
     ) {
       this._focusMap();
     }
-    this.setState({ mapTouchStart: "" });
+    this.setState({ mapTouchStart: '' });
   };
 
   _focusMap = () => {
@@ -283,23 +346,7 @@ class LocationScreenInternal extends React.Component {
   };
 }
 
-const nearbyQuery = gql`
-  query NearbyQuery {
-    allNearbies {
-      name
-      address
-      image
-      category {
-        name
-      }
-      geoposition {
-        latitude
-        longitude
-      }
-    }
-  }
-`;
-export default graphql(nearbyQuery)(LocationScreenInternal);
+export default LocationScreenInternal;
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -307,7 +354,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.transparent
   },
   backgroundImage: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
@@ -331,7 +378,7 @@ const styles = StyleSheet.create({
     paddingVertical: Layout.doubleBaseMargin,
     color: Colors.snow,
     marginVertical: Layout.smallMargin,
-    textAlign: "center"
+    textAlign: 'center'
   },
   subtitle: {
     color: Colors.snow,
@@ -345,31 +392,31 @@ const styles = StyleSheet.create({
     color: Colors.text
   },
   headingContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 40
   },
   mainHeading: {
-    fontFamily: "Montserrat-SemiBold",
+    fontFamily: 'Montserrat-SemiBold',
     fontSize: 31,
     letterSpacing: 0.2,
     color: Colors.snow
   },
   address: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: 'Montserrat-Medium',
     fontSize: 15,
     letterSpacing: 0.47,
     lineHeight: 23,
-    textAlign: "center",
-    color: "#FDE5FF"
+    textAlign: 'center',
+    color: '#FDE5FF'
   },
   map: {
-    width: "100%",
+    width: '100%',
     height: 180,
     zIndex: 2
   },
   nearby: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingTop: 40
   }
 });
