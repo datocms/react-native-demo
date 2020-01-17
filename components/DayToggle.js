@@ -14,7 +14,7 @@ const buttonHitSlop = {
   bottom: 30
 };
 
-const days = ["Thu21", "Fri22", "Sat23"];
+const days = ["Thu 10", "Fri 11"];
 export default class DayToggle extends React.Component {
   render() {
     const { position, onPressDay } = this.props;

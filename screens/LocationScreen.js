@@ -16,8 +16,8 @@ import StatusBarUnderlay from '../components/StatusBarUnderlay';
 import NearbySitesGallery from '../components/NearbySitesGallery';
 import VenueMap from '../components/VenueMap';
 import PurpleGradient from '../components/PurpleGradient';
+import Constants from 'expo-constants';
 
-import moment from 'moment';
 import _ from 'lodash';
 
 const MAP_TAP_THRESHOLD = 100;
@@ -57,7 +57,7 @@ class LocationScreenInternal extends React.Component {
 
   _mostRecentScrollY = 0;
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getData();
 
     this.state.scrollY.addListener(({ value }) => {
@@ -105,23 +105,15 @@ class LocationScreenInternal extends React.Component {
     );
   }
 
-  // componentWillReceiveProps(next) {
-  //   if (next.data.allNearbies)
-  //     this.setState({ allNearbies: next.data.allNearbies });
-  // }
-
   async getData() {
-    console.log('get data');
     let loading = false;
     try {
       let response = await this.doQuery({
         query: nearbyQuery,
         variables: null
       });
-      console.log('response', response);
       if (response.data) {
         let { data } = response;
-        console.log('OK');
         this.setState({ data, loading });
       }
     } catch (err) {
@@ -136,7 +128,7 @@ class LocationScreenInternal extends React.Component {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer 9be42726b9f30dc59e6ce6db178838`
+          Authorization: `Bearer ${Constants.manifest.extra.datoApiToken}`
         },
         body: JSON.stringify(payload)
       }).then(res => res.json());

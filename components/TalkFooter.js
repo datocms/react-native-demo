@@ -7,9 +7,9 @@ export default class TalkFooter extends React.PureComponent {
   render() {
     const { details } = this.props;
     const formattedStart = format(details.eventStart, "h:mmA");
-    let room_name = details.room ? details.room.name : null;
-    if (room_name && room_name.length > 20) {
-      room_name = room_name.substring(0, 17) + `...`;
+    let roomName = details.card[0].room ? details.card[0].room.name : null;
+    if (roomName && roomName.length > 20) {
+      roomName = roomName.substring(0, 17) + `...`;
     }
     return (
       <View style={styles.container}>
@@ -24,13 +24,13 @@ export default class TalkFooter extends React.PureComponent {
               {`${details.duration} Minutes`}
             </Text>
           </View>
-          {room_name && (
+          {roomName && (
             <View style={styles.detail}>
               <Text style={styles.detailLabel}>Room</Text>
               <Text
-                style={[styles.detailText, { color: details.room.color.hex }]}
+                style={[styles.detailText, { color: details.card[0].room.color.hex }]}
               >
-                {`${room_name}`}
+                {`${roomName}`}
               </Text>
             </View>
           )}

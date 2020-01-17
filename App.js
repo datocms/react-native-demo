@@ -22,7 +22,7 @@ export default class App extends React.Component {
   state = {
     appIsReady: false
   };
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._initializeAsync();
     this._listenForNotifications();
   }

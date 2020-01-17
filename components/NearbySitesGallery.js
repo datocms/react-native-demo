@@ -26,7 +26,7 @@ export default class NearbySitesGallery extends React.PureComponent {
     nearbySiteNames: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._formatData(this.props.data);
     requestIdleCallback(() => {
       this.setState({ shouldRenderTabs: true });

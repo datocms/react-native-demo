@@ -27,7 +27,7 @@ export default class GeneralInfoScreen extends React.Component {
     scrollY: new Animated.Value(0)
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._tabPressedListener = NavigationEvents.addListener(
       "selectedTabPressed",
       route => {

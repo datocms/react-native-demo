@@ -28,7 +28,7 @@ export default class VenueMap extends React.Component {
     shouldRenderMap: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._mounted = true;
 
     setTimeout(() => {

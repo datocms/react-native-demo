@@ -22,7 +22,7 @@ export default class TalkDetailScreen extends React.PureComponent {
   };
 
   render() {
-    const { details } = this.props.navigation.state.params;
+    const details = this.props.navigation.state.params.details;
     let underlayOpacity = this.state.scrollY.interpolate({
       inputRange: [0, 50],
       outputRange: [0, 1],
@@ -43,13 +43,13 @@ export default class TalkDetailScreen extends React.PureComponent {
 
             <View style={styles.cardShadow1} />
             <View style={styles.cardShadow2} />
-            {this._renderAvatar()}
+            {this._renderAvatar(details)}
             <View style={styles.card}>
               <Text style={styles.sectionHeading}>TALK</Text>
               <Text style={styles.heading}>{details.title}</Text>
               <Text style={styles.description}>{details.description}</Text>
               <Text style={styles.sectionHeading}>ABOUT</Text>
-              {this._renderSpeakers()}
+              {this._renderSpeakers(details)}
             </View>
 
             <TalkFooter details={details} />
@@ -61,12 +61,11 @@ export default class TalkDetailScreen extends React.PureComponent {
     );
   }
 
-  _renderAvatar() {
-    const { details } = this.props.navigation.state.params;
+  _renderAvatar(details) {
     const image = (
       <Image
         style={styles.avatar}
-        source={{ uri: details.speakerInfo[0].image.url }}
+        source={{ uri: details.card[0].speakers[0].image.url }}
       />
     );
     if (Platform.OS === "ios") {
@@ -76,11 +75,10 @@ export default class TalkDetailScreen extends React.PureComponent {
     }
   }
 
-  _renderSpeakers = () => {
-    const { details } = this.props.navigation.state.params;
-    const { speakerInfo } = details;
+  _renderSpeakers = (details) => {
+    const { speakers } = details.card[0];
 
-    return speakerInfo.map(this._renderSpeaker);
+    return speakers.map(this._renderSpeaker);
   };
 
   _renderSpeaker = (speaker, index) => {
