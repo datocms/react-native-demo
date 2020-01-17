@@ -24,7 +24,6 @@ const MAP_TAP_THRESHOLD = 100;
 const SCROLL_TARGET_FOR_MAP_FOCUS = Layout.screenHeight / 4.25;
 const ACTIVE_MAP_HEIGHT = Layout.screenHeight - SCROLL_TARGET_FOR_MAP_FOCUS;
 
-import { DATO_API_KEY } from 'react-native-dotenv';
 const nearbyQuery = `
   query NearbyQuery {
     allNearbies {
@@ -137,7 +136,7 @@ class LocationScreenInternal extends React.Component {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${DATO_API_KEY}`
+          Authorization: `Bearer 9be42726b9f30dc59e6ce6db178838`
         },
         body: JSON.stringify(payload)
       }).then(res => res.json());

@@ -6,10 +6,9 @@ import {
   StatusBar,
   Platform,
   StyleSheet,
-  Text,
   View
 } from 'react-native';
-import { AppLoading, KeepAwake, Notifications } from 'expo';
+import { AppLoading, Notifications } from 'expo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Images from './constants/Images';
 import RootNavigation from './navigation/RootNavigation';
@@ -18,7 +17,6 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import NavigationEvents from './utilities/NavigationEvents';
 
 console.disableYellowBox = true;
-Text.defaultProps.allowFontScaling = false;
 
 export default class App extends React.Component {
   state = {

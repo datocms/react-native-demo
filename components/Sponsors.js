@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { WebBrowser } from 'expo';
+import * as WebBrowser from 'expo-web-browser';
 import { Colors, Fonts, Images, Layout } from '../constants';
 
 const Sponsor = props => {

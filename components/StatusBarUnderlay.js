@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, View } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 import Colors from '../constants/Colors';
 

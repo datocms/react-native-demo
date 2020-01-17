@@ -1,5 +1,6 @@
 import { Image } from 'react-native';
-import { Asset, Font } from 'expo';
+import * as Font from 'expo-font';
+import { Asset } from 'expo-asset';
 
 export default function cacheAssetsAsync({ images = [], fonts = [] }) {
   return Promise.all([...cacheImages(images), ...cacheFonts(fonts)]);

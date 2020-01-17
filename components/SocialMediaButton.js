@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { WebBrowser } from 'expo';
+import * as WebBrowser from 'expo-web-browser';
 
 import Images from '../constants/Images';
 

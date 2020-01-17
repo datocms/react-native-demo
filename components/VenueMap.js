@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { MapView } from "expo";
+import MapView from 'react-native-maps';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Images, Layout, Colors } from "../constants";
 

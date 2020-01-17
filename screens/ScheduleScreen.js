@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { TabViewAnimated, TabViewPagerScroll } from 'react-native-tab-view';
 import Touchable from 'react-native-platform-touchable';
-import { DATO_API_KEY } from 'react-native-dotenv';
 
 //import scheduleByDay from "../data/scheduleByDay.json";
 import Colors from '../constants/Colors';
@@ -90,7 +89,7 @@ class ScheduleScreen extends React.Component {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${DATO_API_KEY}`
+          Authorization: `Bearer 9be42726b9f30dc59e6ce6db178838`
         },
         body: JSON.stringify(payload)
       }).then(res => res.json());

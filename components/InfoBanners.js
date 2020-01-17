@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { LinearGradient, WebBrowser } from 'expo';
+import * as WebBrowser from 'expo-web-browser';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { Colors, Fonts, Images } from '../constants';
 import RoundedButton from './RoundedButton';

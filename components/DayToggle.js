@@ -1,6 +1,7 @@
 import React from "react";
 import { Animated, TouchableOpacity, StyleSheet, View } from "react-native";
-import { Constants, LinearGradient } from "expo";
+import { LinearGradient } from 'expo-linear-gradient';
+import Constants from 'expo-constants';
 import Touchable from "react-native-platform-touchable";
 
 import Colors from "../constants/Colors";

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "sdkVersion": "30.0.0",
+    "sdkVersion": "36.0.0",
     "name": "DatoCMS WMF 2018",
     "slug": "datocms-wmf",
     "privacy": "public",

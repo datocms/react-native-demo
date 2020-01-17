@@ -1,5 +1,5 @@
 import React from 'react';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
 
 export default class PurpleGradient extends React.PureComponent {
