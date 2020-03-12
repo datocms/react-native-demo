@@ -1,0 +1,7 @@
+{
+  "name": "React Native DatoCMS app",
+  "previewImage": "https://raw.githubusercontent.com/datocms/react-native-demo/master/preview.png",
+  "templateId": "9442",
+  "deploymentType": "copyRepo",
+  "datocmsApiTokenEnvName": "DATO_API_TOKEN"
+ }
