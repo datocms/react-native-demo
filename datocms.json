@@ -1,7 +1,8 @@
 {
   "name": "React Native DatoCMS app",
-  "previewImage": "https://raw.githubusercontent.com/datocms/react-native-demo/master/preview.png",
-  "templateId": "9442",
+  "previewImage": "https://www.datocms-assets.com/205/1525341477-asdadsasda.png?crop=top&fit=crop&h=500&w=600&auto=format",
+  "datocmsProjectId": "9442",
   "deploymentType": "copyRepo",
-  "datocmsApiTokenEnvName": "DATO_API_TOKEN"
- }
+  "datocmsApiTokenEnvName": "DATO_API_TOKEN",
+  "livePreviewUrl": "https://expo.io/@mat_jack1/datocms-wmf"
+}
