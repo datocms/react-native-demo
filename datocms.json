@@ -1,5 +1,6 @@
 {
-  "name": "React Native DatoCMS app",
+  "name": "React Native Conference App",
+  "description": "Sample React Native conference application built with Expo",
   "previewImage": "https://www.datocms-assets.com/205/1525341477-asdadsasda.png?crop=top&fit=crop&h=500&w=600&auto=format",
   "datocmsProjectId": "9442",
   "deploymentType": "copyRepo",
