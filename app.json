@@ -1,10 +1,9 @@
 {
   "expo": {
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "37.0.0",
     "name": "DatoCMS WMF 2018",
     "slug": "datocms-wmf",
     "privacy": "public",
-    "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/app-icon.png",
@@ -18,9 +17,7 @@
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
-      "assetExts": [
-        "ttf"
-      ]
+      "config": "metro.config.js"
     },
     "ios": {
       "bundleIdentifier": "com.datocms.wmf",
@@ -31,10 +28,7 @@
       "package": "com.datocms.wmf",
       "versionCode": 1
     },
-    "platforms": [
-      "android",
-      "ios"
-    ],
+    "platforms": ["android", "ios"],
     "description": "This app is a Demo app for using DatoCMS contents via GraphQL api on a React Native app.",
     "extra": {
       "datoApiToken": "xxxxxx"
