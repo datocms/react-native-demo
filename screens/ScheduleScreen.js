@@ -1,4 +1,5 @@
 import React from 'react';
+import { DATO_API_TOKEN } from 'react-native-dotenv';
 import {
   ActivityIndicator,
   Animated,
@@ -31,17 +32,17 @@ class ScheduleScreen extends React.Component {
       index: 0,
       routes: [
         { key: 'd1', day: 0 },
-        { key: 'd2', day: 1 }
+        { key: 'd2', day: 1 },
       ],
       events: null,
       offsets: [0, 0, 0],
-      loading: true
+      loading: true,
     };
   }
   _scheduleDayRef = {};
 
   static navigationOptions = {
-    title: 'Schedule'
+    title: 'Schedule',
   };
 
   UNSAFE_componentWillMount() {
@@ -71,9 +72,9 @@ class ScheduleScreen extends React.Component {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${Constants.manifest.extra.datoApiToken}`
+          Authorization: `Bearer ${DATO_API_TOKEN}`,
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }).then(res => res.json());
     } catch (error) {
       console.log('QUERY ERROR', error, 'on query', payload);
@@ -86,8 +87,9 @@ class ScheduleScreen extends React.Component {
     try {
       let response = await this.doQuery({
         query: eventsQuery,
-        variables: { limit: LIMIT, offset: 0 }
+        variables: { limit: LIMIT, offset: 0 },
       });
+
       if (response.data) {
         let { d1, d2 } = response.data;
         let events = [];
@@ -137,7 +139,7 @@ class ScheduleScreen extends React.Component {
             height:
               Layout.window.height -
               Layout.tabBarHeight -
-              Layout.dayToggleHeight
+              Layout.dayToggleHeight,
           }}
         />
       </PurpleGradient>
@@ -199,7 +201,11 @@ class ScheduleScreen extends React.Component {
     event.d = '' + d;
     event.eventStart = event.time;
     event.eventEnd = moment(event.time).add(event.duration, 'mins');
-    if (event.card && event.card[0].speakers && event.card[0].speakers[0].image) {
+    if (
+      event.card &&
+      event.card[0].speakers &&
+      event.card[0].speakers[0].image
+    ) {
       event.type = 'talk';
       event.avatarURL = event.card[0].speakers[0].image.url;
     } else {
@@ -253,6 +259,7 @@ const frag = `
     }
   }
 `;
+
 const eventsXday = `
   query SchedulesPerDay(
     $limit: IntType
@@ -286,6 +293,7 @@ const eventsQuery = `
       orderBy: time_ASC
       filter: { time: { gt: "2017-07-10", lt: "2017-07-11" } }
     ) {
+      id
       title
       time
       duration
@@ -299,6 +307,7 @@ const eventsQuery = `
       orderBy: time_ASC
       filter: { time: { gt: "2017-07-11", lt: "2017-07-12" } }
     ) {
+      id
       title
       time
       duration
@@ -310,7 +319,6 @@ const eventsQuery = `
   ${frag}
 `;
 
-
 export default ScheduleScreen;
 
 class ScheduleDay extends React.PureComponent {
@@ -319,7 +327,7 @@ class ScheduleDay extends React.PureComponent {
 
     this.state = {
       visible: new Animated.Value(props.fadeInOnRender ? 0 : 1),
-      waitingToRender: !!props.fadeInOnRender
+      waitingToRender: !!props.fadeInOnRender,
     };
   }
 
@@ -330,7 +338,7 @@ class ScheduleDay extends React.PureComponent {
           Animated.timing(this.state.visible, {
             toValue: 1,
             duration: 200,
-            useNativeDriver: true
+            useNativeDriver: true,
           }).start();
         });
       });
@@ -341,8 +349,7 @@ class ScheduleDay extends React.PureComponent {
     if (this.state.waitingToRender) {
       return (
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        >
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <ActivityIndicator color="#fff" size="large" />
         </View>
       );
@@ -354,9 +361,8 @@ class ScheduleDay extends React.PureComponent {
           style={{
             flex: 9,
             opacity: this.state.visible,
-            backgroundColor: 'transparent'
-          }}
-        >
+            backgroundColor: 'transparent',
+          }}>
           <FlatList
             data={this.props.events}
             ref={view => {
@@ -387,26 +393,26 @@ class ScheduleDay extends React.PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   page: {
-    width: Layout.window.width
+    width: Layout.window.width,
   },
   row: {
     flex: 1,
     backgroundColor: Colors.snow,
-    marginVertical: Layout.smallMargin
+    marginVertical: Layout.smallMargin,
   },
   boldLabel: {
     fontWeight: 'bold',
-    color: Colors.text
+    color: Colors.text,
   },
   label: {
-    color: Colors.text
+    color: Colors.text,
   },
   listContent: {
     paddingTop: Layout.baseMargin,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   timeline: {
     width: 2,
@@ -414,6 +420,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 85,
     bottom: 0,
-    right: 11
-  }
+    right: 11,
+  },
 });

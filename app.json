@@ -31,7 +31,7 @@
     "platforms": ["android", "ios"],
     "description": "This app is a Demo app for using DatoCMS contents via GraphQL api on a React Native app.",
     "extra": {
-      "datoApiToken": "xxxxxx"
+      "DATO_API_TOKEN": "xxxxxx"
     },
     "githubUrl": "https://github.com/datocms/react-native-demo"
   }

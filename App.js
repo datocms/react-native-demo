@@ -1,13 +1,13 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
-
 import {
+  AppRegistry,
   Alert,
   StatusBar,
   Platform,
   StyleSheet,
-  View
+  View,
 } from 'react-native';
+
 import { AppLoading, Notifications } from 'expo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Images from './constants/Images';
@@ -20,7 +20,7 @@ console.disableYellowBox = true;
 
 export default class App extends React.Component {
   state = {
-    appIsReady: false
+    appIsReady: false,
   };
   UNSAFE_componentWillMount() {
     this._initializeAsync();
@@ -45,21 +45,21 @@ export default class App extends React.Component {
         fonts: [
           Ionicons.font,
           {
-            'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf')
+            'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
           },
           {
-            'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf')
+            'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf'),
           },
           {
-            'Montserrat-Medium': require('./assets/fonts/Montserrat-Medium.ttf')
+            'Montserrat-Medium': require('./assets/fonts/Montserrat-Medium.ttf'),
           },
           {
-            'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf')
+            'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
           },
           {
-            'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf')
-          }
-        ]
+            'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+          },
+        ],
       });
     } catch (e) {
       console.log(e);
@@ -88,8 +88,8 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#140034'
-  }
+    backgroundColor: '#140034',
+  },
 });
 
 AppRegistry.registerComponent('Conference', () => App);
