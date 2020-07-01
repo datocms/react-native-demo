@@ -16,7 +16,7 @@ import StatusBarUnderlay from '../components/StatusBarUnderlay';
 import NearbySitesGallery from '../components/NearbySitesGallery';
 import VenueMap from '../components/VenueMap';
 import PurpleGradient from '../components/PurpleGradient';
-import Constants from 'expo-constants';
+import { DATO_API_TOKEN } from 'react-native-dotenv';
 
 import _ from 'lodash';
 
@@ -128,7 +128,7 @@ class LocationScreenInternal extends React.Component {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${Constants.manifest.extra.datoApiToken}`
+          Authorization: `Bearer ${DATO_API_TOKEN}`
         },
         body: JSON.stringify(payload)
       }).then(res => res.json());
