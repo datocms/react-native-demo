@@ -4,6 +4,7 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 
 
 ## Preview this App
+
 You can preview this app on on your phone from this page on [expo.io datocms-wmf](https://expo.io/@mat_jack1/datocms-wmf)
 
 
@@ -22,7 +23,10 @@ First colone this repo
 
 #### `Set DatoCMS API token env variable`
 
-Edit the `app.json` file and add your API token in `datoApiToken`.
+Add an .env file containing the read-only API token of your DatoCMS site:
+
+`echo 'DATO_API_TOKEN=abc123' >> .env`
+
 You can find your [DatoCMS](https://datocms.com) API token in the Admin area > API tokens section.
 
 ### `Install dependencies and run`
