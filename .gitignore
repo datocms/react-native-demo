@@ -3,6 +3,7 @@
 # expo
 .expo/
 .expo-shared/
+web-build/
 
 # dependencies
 /node_modules

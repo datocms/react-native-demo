@@ -1,6 +1,5 @@
 {
   "expo": {
-    "sdkVersion": "38.0.0",
     "name": "DatoCMS WMF 2018",
     "slug": "datocms-wmf",
     "privacy": "public",
@@ -28,7 +27,10 @@
       "package": "com.datocms.wmf",
       "versionCode": 1
     },
-    "platforms": ["android", "ios"],
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "description": "This app is a Demo app for using DatoCMS contents via GraphQL api on a React Native app.",
     "githubUrl": "https://github.com/datocms/react-native-demo"
   }
